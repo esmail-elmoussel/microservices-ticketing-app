@@ -1,19 +1,8 @@
 import mongoose from "mongoose";
+import { UserAttrs, UserDoc, UserModel } from "../types/user.types";
 import { Password } from "../utils/password.util";
 
-interface UserAttrs {
-  email: string;
-  password: string;
-}
-
-interface UserModel extends mongoose.Model<UserDoc> {
-  build: (attrs: UserAttrs) => UserDoc;
-}
-
-interface UserDoc extends mongoose.Document {
-  email: string;
-  password: string;
-}
+mongoose.set("debug", true);
 
 const userSchema = new mongoose.Schema({
   email: {
