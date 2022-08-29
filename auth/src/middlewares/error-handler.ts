@@ -13,7 +13,7 @@ export const errorHandler = (
 
   console.error("Unhandled Error! ", err);
 
-  return res.status(400).send({
+  return res.status(500).send({
     errors: [{ message: "Something went wrong" }],
   });
 };

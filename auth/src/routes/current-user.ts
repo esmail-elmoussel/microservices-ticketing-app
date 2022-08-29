@@ -1,21 +1,29 @@
 import { Router } from "express";
-import jwt from "jsonwebtoken";
-import { configs } from "../configs";
+import { authenticationMiddleware } from "../middlewares/authentication-middleware";
 import { User } from "../models/user.model";
+import { DecodedToken } from "../types/user.types";
 
 const router = Router();
 
-router.get("/api/users/current-user", async (req, res) => {
-  const { token } = req.session as { token: string };
+router.get(
+  "/api/users/current-user",
+  authenticationMiddleware,
+  async (req, res) => {
+    const { currentUser } = req;
 
-  const decodedToken = jwt.verify(token, configs.JWT_SECRET) as {
-    id: string;
-    email: string;
-  };
+    const user = await User.findById(currentUser?.id);
 
-  const user = await User.findById(decodedToken.id);
-
-  return res.json(user);
-});
+    return res.json(user);
+  }
+);
 
 export { router as currentUserRouter };
+
+// TODO: to be deleted from this file and adding it to declaration folder!
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser?: DecodedToken;
+    }
+  }
+}
