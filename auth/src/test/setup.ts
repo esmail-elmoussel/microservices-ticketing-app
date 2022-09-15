@@ -1,9 +1,11 @@
+process.env.JWT_SECRET = "asdkajsh";
+
+import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import { app } from "../app";
 
 let mongo: MongoMemoryServer;
-
-process.env.JWT_SECRET = "asdkajsh";
 
 beforeAll(async () => {
   mongo = await MongoMemoryServer.create();
@@ -32,3 +34,18 @@ async function removeAllCollections() {
     await collection.deleteMany();
   }
 }
+
+declare global {
+  var register: () => Promise<string[]>;
+}
+
+global.register = async () => {
+  const registerResponse = await request(app)
+    .post("/api/users/register")
+    .send({ email: "test@test.com", password: "password" })
+    .expect(201);
+
+  const cookie = registerResponse.get("Set-Cookie");
+
+  return cookie;
+};

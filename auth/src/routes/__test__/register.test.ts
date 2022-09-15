@@ -28,8 +28,8 @@ describe("Register", () => {
       .expect(201);
 
     expect(response.get("Set-Cookie")).toBeDefined();
-    expect(JSON.parse(response.text).id).toBeDefined();
-    expect(JSON.parse(response.text).email).toBe(email);
-    expect(JSON.parse(response.text).password).toBeUndefined();
+    expect(response.body.id).toBeDefined();
+    expect(response.body.email).toBe(email);
+    expect(response.body.password).toBeUndefined();
   });
 });
