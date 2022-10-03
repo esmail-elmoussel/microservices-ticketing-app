@@ -7,7 +7,7 @@ import { logoutRouter } from "./routes/logout";
 import { registerRouter } from "./routes/register";
 import { currentUserRouter } from "./routes/current-user";
 import { NotFoundError } from "./errors/not-found-error";
-import { errorHandler } from "./middlewares/error-handler";
+import { errorHandlerMiddleware } from "./middlewares/error-handler-middleware";
 import { configs } from "./configs";
 
 const app = express();
@@ -31,6 +31,6 @@ app.all("*", () => {
   throw new NotFoundError();
 });
 
-app.use(errorHandler);
+app.use(errorHandlerMiddleware);
 
 export { app };
