@@ -8,7 +8,6 @@ import { registerRouter } from "./routes/register";
 import { currentUserRouter } from "./routes/current-user";
 import { NotFoundError } from "./errors/not-found-error";
 import { errorHandlerMiddleware } from "./middlewares/error-handler-middleware";
-import { configs } from "./configs";
 
 const app = express();
 
@@ -18,7 +17,8 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    secure: configs.NODE_ENV !== "test",
+    // secure: configs.NODE_ENV !== "test",
+    secure: false, // handle http requests
   })
 );
 
