@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
 import { useRequest } from "../../hooks/use-request";
 
 interface UserFormData {
@@ -7,6 +8,8 @@ interface UserFormData {
 }
 
 const Register = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -15,6 +18,9 @@ const Register = () => {
   const { doRequest, errors: requestErrors } = useRequest({
     url: "/api/users/register",
     method: "post",
+    onSuccess: () => {
+      router.push("/");
+    },
   });
 
   const onSubmit = async (data: UserFormData) => {

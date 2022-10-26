@@ -4,9 +4,11 @@ import React, { ReactNode, useState } from "react";
 export const useRequest = ({
   url,
   method,
+  onSuccess = () => null,
 }: {
   url: string;
   method: "post" | "get" | "put" | "delete";
+  onSuccess?: (data: any) => void;
 }) => {
   const [errors, setErrors] = useState<ReactNode | null>(null);
 
@@ -15,6 +17,9 @@ export const useRequest = ({
       setErrors(null);
 
       const response = await axios[method](url, body);
+
+      onSuccess(response);
+
       return response.data;
     } catch (err: any) {
       setErrors(
