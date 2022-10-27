@@ -7,7 +7,7 @@ interface UserFormData {
   password: string;
 }
 
-const Register = () => {
+const Login = () => {
   const router = useRouter();
 
   const {
@@ -16,7 +16,7 @@ const Register = () => {
     formState: { errors },
   } = useForm<UserFormData>();
   const { doRequest, errors: requestErrors } = useRequest({
-    url: "/api/users/register",
+    url: "/api/users/login",
     method: "post",
     onSuccess: () => {
       router.push("/");
@@ -29,7 +29,7 @@ const Register = () => {
 
   return (
     <div className="container">
-      <h1>Register</h1>
+      <h1>Login</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group mt-2 mb-2">
@@ -75,4 +75,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
