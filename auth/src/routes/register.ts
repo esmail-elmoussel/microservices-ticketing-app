@@ -1,8 +1,8 @@
+import { BadRequestError } from "@esmailelmoussel/microservices-common";
 import { Router } from "express";
 import { body } from "express-validator";
 import jwt from "jsonwebtoken";
 import { configs } from "../configs";
-import { BadRequestError } from "../errors/bad-request-error";
 import { requestValidationMiddleware } from "../middlewares/request-validation-middleware";
 import { User } from "../models/user.model";
 

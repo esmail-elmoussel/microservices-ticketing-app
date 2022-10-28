@@ -1,6 +1,6 @@
+import { RequestValidationError } from "@esmailelmoussel/microservices-common";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { RequestValidationError } from "../errors/request-validation-error";
 
 export const requestValidationMiddleware = (
   req: Request,

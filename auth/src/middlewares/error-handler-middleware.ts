@@ -1,5 +1,5 @@
+import { CustomError } from "@esmailelmoussel/microservices-common";
 import { NextFunction, Request, Response } from "express";
-import { CustomError } from "../errors/custom-error";
 
 export const errorHandlerMiddleware = (
   err: Error,
