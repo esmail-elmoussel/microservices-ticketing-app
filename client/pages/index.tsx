@@ -9,7 +9,11 @@ interface Props {
 const Home: NextPage<Props> = ({ user }) => {
   const router = useRouter();
 
-  return user ? <h1>Welcome, {user.email}</h1> : <h1>Please login</h1>;
+  return (
+    <div className="container">
+      {user ? <h1>Welcome, {user.email}</h1> : <h1>Please login</h1>}
+    </div>
+  );
 };
 
 Home.getInitialProps = () => {
