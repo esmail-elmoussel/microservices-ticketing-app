@@ -1,7 +1,6 @@
+import { authenticationMiddleware } from "@esmailelmoussel/microservices-common";
 import { Router } from "express";
-import { authenticationMiddleware } from "../middlewares/authentication-middleware";
 import { User } from "../models/user.model";
-import { DecodedToken } from "../types/user.types";
 
 const router = Router();
 
@@ -18,12 +17,3 @@ router.get(
 );
 
 export { router as currentUserRouter };
-
-// TODO: to be deleted from this file and adding it to declaration folder!
-declare global {
-  namespace Express {
-    interface Request {
-      currentUser?: DecodedToken;
-    }
-  }
-}

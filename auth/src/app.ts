@@ -6,8 +6,10 @@ import { loginRouter } from "./routes/login";
 import { logoutRouter } from "./routes/logout";
 import { registerRouter } from "./routes/register";
 import { currentUserRouter } from "./routes/current-user";
-import { errorHandlerMiddleware } from "./middlewares/error-handler-middleware";
-import { NotFoundError } from "@esmailelmoussel/microservices-common";
+import {
+  errorHandlerMiddleware,
+  NotFoundError,
+} from "@esmailelmoussel/microservices-common";
 
 const app = express();
 
