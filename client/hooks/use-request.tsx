@@ -12,7 +12,7 @@ export const useRequest = ({
 }) => {
   const [errors, setErrors] = useState<ReactNode | null>(null);
 
-  const doRequest = async (body: any) => {
+  const doRequest = async (body?: any) => {
     try {
       setErrors(null);
 

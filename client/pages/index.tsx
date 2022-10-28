@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-
-interface User {
-  email: string;
-}
+import { User } from "../types/user.types";
 
 interface Props {
   user?: User;
@@ -12,11 +9,7 @@ interface Props {
 const Home: NextPage<Props> = ({ user }) => {
   const router = useRouter();
 
-  return user ? (
-    <h1>Welcome, {user.email}</h1>
-  ) : (
-    <h1 onClick={() => router.push("/auth/login")}>Please login</h1>
-  );
+  return user ? <h1>Welcome, {user.email}</h1> : <h1>Please login</h1>;
 };
 
 Home.getInitialProps = () => {

@@ -1,10 +1,8 @@
 import { AppContext, AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
 import { axiosClient } from "../api/axios-client";
-
-interface User {
-  email: string;
-}
+import { User } from "../types/user.types";
+import Header from "../components/shared/header.component";
 
 type Props = AppProps & {
   user?: User;
@@ -12,11 +10,11 @@ type Props = AppProps & {
 
 const App = ({ Component, pageProps, user }: Props) => {
   return (
-    <>
-      <div>Header</div>
+    <div>
+      <Header user={user} />
 
       <Component {...pageProps} user={user} />
-    </>
+    </div>
   );
 };
 
