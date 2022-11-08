@@ -10,6 +10,7 @@ import {
 import { getTickets } from "./routes/get-tickets";
 import { createTicket } from "./routes/create-ticket";
 import { getTicket } from "./routes/get-ticket";
+import { editTicket } from "./routes/edit-ticket";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use(
 
 app.use(getTickets);
 app.use(createTicket);
+app.use(editTicket);
 app.use(getTicket);
 
 app.all("*", () => {

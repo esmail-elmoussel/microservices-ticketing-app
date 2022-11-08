@@ -2,7 +2,7 @@ process.env.JWT_SECRET = "asdkajsh";
 
 import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 let mongo: MongoMemoryServer;
 
@@ -39,7 +39,7 @@ declare global {
 }
 
 global.register = () => {
-  const user = { email: "test@test.com", id: "6369c450843085e34db4c18c" };
+  const user = { email: "test@test.com", id: new Types.ObjectId() };
 
   const token = jwt.sign(user, process.env.JWT_SECRET as string);
 
