@@ -8,6 +8,7 @@ import {
   NotFoundError,
 } from "@esmailelmoussel/microservices-common";
 import { getTickets } from "./routes/get-tickets";
+import { createTicket } from "./routes/create-ticket";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 );
 
 app.use(getTickets);
+app.use(createTicket);
 
 app.all("*", () => {
   throw new NotFoundError();

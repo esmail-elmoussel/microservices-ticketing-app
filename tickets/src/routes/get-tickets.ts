@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/api/tickets", async (req, res) => {
-  return res.send("tickets");
+  return res.json([]);
 });
 
 export { router as getTickets };
