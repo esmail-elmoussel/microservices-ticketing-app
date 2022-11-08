@@ -1,9 +1,12 @@
 import { Router } from "express";
+import { Ticket } from "../models/ticket.model";
 
 const router = Router();
 
 router.get("/api/tickets", async (req, res) => {
-  return res.json([]);
+  const tickets = await Ticket.find();
+
+  return res.json(tickets);
 });
 
 export { router as getTickets };
