@@ -33,7 +33,7 @@ router.put(
       throw new NotFoundError();
     }
 
-    if (ticket.userId !== currentUser.id) {
+    if (ticket.userId !== currentUser!.id) {
       throw new AuthenticationError("Can not edit others tickets");
     }
 

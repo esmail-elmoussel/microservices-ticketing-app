@@ -4,7 +4,6 @@ import { configs } from "./configs";
 
 const startServer = async () => {
   try {
-    console.log({ tickets: configs.MONGO_URI });
     await mongoose.connect(configs.MONGO_URI);
 
     console.info("Database connected successfully!");

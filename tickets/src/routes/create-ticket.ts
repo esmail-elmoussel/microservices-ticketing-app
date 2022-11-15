@@ -5,6 +5,7 @@ import {
 import { Router } from "express";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket.model";
+import { DecodedToken } from "../types/user.types";
 
 const router = Router();
 
@@ -17,7 +18,7 @@ router.post(
   async (req, res) => {
     const { title, price } = req.body as { title: string; price: number };
 
-    const ticket = Ticket.build({ title, price, userId: req.currentUser.id });
+    const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
 
     await ticket.save();
 
@@ -26,3 +27,12 @@ router.post(
 );
 
 export { router as createTicket };
+
+// TODO: to be deleted from this file and adding it to declaration folder!
+declare global {
+  namespace Express {
+    interface Request {
+      currentUser?: DecodedToken;
+    }
+  }
+}
