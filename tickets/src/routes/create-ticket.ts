@@ -1,11 +1,12 @@
 import {
   authenticationMiddleware,
+  DecodedToken,
   requestValidationMiddleware,
 } from "@esmailelmoussel/microservices-common";
+
 import { Router } from "express";
 import { body } from "express-validator";
 import { Ticket } from "../models/ticket.model";
-import { DecodedToken } from "../types/user.types";
 
 const router = Router();
 
