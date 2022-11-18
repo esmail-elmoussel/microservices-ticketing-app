@@ -14,8 +14,3 @@ export interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
 }
-
-export interface DecodedToken extends jwt.JwtPayload {
-  id: string;
-  email: string;
-}
