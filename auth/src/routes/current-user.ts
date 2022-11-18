@@ -1,7 +1,5 @@
-import {
-  authenticationMiddleware,
-  DecodedToken,
-} from "@esmailelmoussel/microservices-common";
+import { authenticationMiddleware } from "@esmailelmoussel/microservices-common";
+import { DecodedToken } from "@esmailelmoussel/microservices-common/build/types/user.types";
 import { Router } from "express";
 import { User } from "../models/user.model";
 
