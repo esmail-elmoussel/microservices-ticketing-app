@@ -1,25 +1,23 @@
 import nats from "node-nats-streaming";
+import { randomBytes } from "crypto";
+import { PostCreatedPublisher } from "./events/post-created-publisher";
 
 console.clear();
 
-const stan = nats.connect("ticketing", "abc", {
+const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
 });
 
-stan.on("connect", () => {
+stan.on("connect", async () => {
   console.log("Publisher connected successfully to NATS streaming server!");
 
-  const eventName = "new-user";
+  const publisher = new PostCreatedPublisher(stan);
+
   const eventData = {
-    username: "Esmail Elmoussel",
-    role: "Super Admin",
+    id: "some id",
+    title: "TITLE",
+    userId: "Esmail",
   };
 
-  stan.publish(eventName, JSON.stringify(eventData), (err, guid) => {
-    if (err) {
-      console.log("publish failed: " + err);
-    } else {
-      console.log("published message with guid: " + guid);
-    }
-  });
+  await publisher.publish(eventData);
 });
