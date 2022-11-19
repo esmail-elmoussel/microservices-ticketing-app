@@ -7,7 +7,9 @@ import {
 import { Router } from "express";
 import { body } from "express-validator";
 import { ObjectId } from "mongoose";
+import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { Ticket } from "../models/ticket.model";
+import { natsWrapper } from "../nats-wrapper";
 
 const router = Router();
 
@@ -26,7 +28,6 @@ router.put(
     };
     const { currentUser } = req;
 
-    // const ticket = await Ticket.findByIdAndUpdate(ticketId, { title, price });
     const ticket = await Ticket.findById(ticketId);
 
     if (!ticket) {
@@ -40,6 +41,13 @@ router.put(
     ticket.set({ title, price });
 
     await ticket.save();
+
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+    });
 
     return res.status(200).json(ticket);
   }
