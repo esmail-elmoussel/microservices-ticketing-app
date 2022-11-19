@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
+import { randomBytes } from "crypto";
 import { app } from "./app";
 import { configs } from "./configs";
+import { natsWrapper } from "./nats-wrapper";
 
 const startServer = async () => {
   try {
@@ -8,11 +10,23 @@ const startServer = async () => {
 
     console.info("Database connected successfully!");
 
+    await natsWrapper.connect(
+      "ticketing",
+      randomBytes(4).toString("hex"),
+      "http://nats-srv:4222"
+    );
+
+    natsWrapper.client.on("close", () => {
+      process.exit();
+    });
+
+    console.info("Nats connected successfully!");
+
     app.listen(3000, () => {
       console.info("Tickets service listening on port 3000!");
     });
   } catch (err) {
-    console.error("Error connecting to database! ", err);
+    console.error(err);
   }
 };
 
