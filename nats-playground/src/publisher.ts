@@ -4,7 +4,7 @@ import { PostCreatedPublisher } from "./events/post-created-publisher";
 
 console.clear();
 
-const stan = nats.connect("ticketing", randomBytes(4).toString("hex"), {
+const stan = nats.connect("tickets", randomBytes(4).toString("hex"), {
   url: "http://localhost:4222",
 });
 

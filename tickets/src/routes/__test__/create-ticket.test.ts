@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../../app";
 import { Ticket } from "../../models/ticket.model";
+import { natsWrapper } from "../../nats-wrapper";
 
 describe("Create ticket", () => {
   it("Should hit the end point successfully", async () => {
@@ -100,5 +101,16 @@ describe("Create ticket", () => {
 
     const newTicketsCount = await Ticket.countDocuments();
     expect(newTicketsCount).toBe(prevTicketsCount + 1);
+  });
+
+  it("Should publish an event successfully", async () => {
+    const cookie = global.register();
+
+    await request(app)
+      .post("/api/tickets")
+      .send({ title: "Some Title", price: 200 })
+      .set("Cookie", cookie);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalledTimes(1);
   });
 });

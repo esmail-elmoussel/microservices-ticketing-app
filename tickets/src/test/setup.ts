@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Types } from "mongoose";
 
+jest.mock("../nats-wrapper.ts");
+
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
@@ -14,6 +16,8 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
+  jest.clearAllMocks();
+
   await removeAllCollections();
 });
 

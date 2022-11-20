@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { randomBytes } from "crypto";
 import { app } from "./app";
 import { configs } from "./configs";
 import { natsWrapper } from "./nats-wrapper";
@@ -11,9 +10,9 @@ const startServer = async () => {
     console.info("Database connected successfully!");
 
     await natsWrapper.connect(
-      "ticketing",
-      randomBytes(4).toString("hex"),
-      "http://nats-srv:4222"
+      configs.NATS_CLUSTER_ID,
+      configs.NATS_CLIENT_ID,
+      configs.NATS_URL
     );
 
     natsWrapper.client.on("close", () => {

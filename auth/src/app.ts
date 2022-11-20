@@ -19,7 +19,6 @@ app.use(json());
 app.use(
   cookieSession({
     signed: false,
-    // secure: configs.NODE_ENV !== "test",
     secure: false, // handle http requests
   })
 );

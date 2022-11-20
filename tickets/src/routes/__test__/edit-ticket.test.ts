@@ -1,8 +1,8 @@
 import request from "supertest";
 import { app } from "../../app";
-import { Ticket } from "../../models/ticket.model";
+import { natsWrapper } from "../../nats-wrapper";
 
-describe("Create ticket", () => {
+describe("Edit ticket", () => {
   it("Should hit the end point successfully", async () => {
     const response = await request(app).put("/api/tickets");
 
@@ -169,5 +169,32 @@ describe("Create ticket", () => {
     expect(updateTicketResponse.status).toEqual(200);
     expect(updateTicketResponse.body.title).toEqual(updatedTitle);
     expect(updateTicketResponse.body.price).toEqual(updatedPrice);
+  });
+
+  it("Should publish an event successfully", async () => {
+    const cookie = global.register();
+    const ticket = {
+      title: "Some Ticket",
+      price: 100,
+    };
+
+    const createTicketResponse = await request(app)
+      .post("/api/tickets/")
+      .set("Cookie", cookie)
+      .send(ticket);
+
+    const updatedTitle = "UPDATED TITLE";
+    const updatedPrice = 200;
+
+    await request(app)
+      .put("/api/tickets")
+      .send({
+        ticketId: createTicketResponse.body.id,
+        title: updatedTitle,
+        price: updatedPrice,
+      })
+      .set("Cookie", cookie);
+
+    expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
   });
 });
