@@ -1,3 +1,5 @@
+import { OrderStatus } from "./order.types";
+
 export interface Event {
   subject: string;
   data: any;
@@ -20,5 +22,29 @@ export interface TicketUpdatedEvent {
     title: string;
     price: number;
     userId: string;
+  };
+}
+
+export interface OrderCreatedEvent {
+  subject: "order:created";
+  data: {
+    id: string;
+    status: OrderStatus;
+    userId: string;
+    expiresAt: string;
+    ticket: {
+      id: string;
+      price: number;
+    };
+  };
+}
+
+export interface OrderCancelledEvent {
+  subject: "order:cancelled";
+  data: {
+    id: string;
+    ticket: {
+      id: string;
+    };
   };
 }
