@@ -1,8 +1,8 @@
 import {
   authenticationMiddleware,
+  DecodedToken,
   requestValidationMiddleware,
 } from "@esmailelmoussel/microservices-common";
-import { DecodedToken } from "@esmailelmoussel/microservices-common/build/types/user.types";
 
 import { Router } from "express";
 import { body } from "express-validator";

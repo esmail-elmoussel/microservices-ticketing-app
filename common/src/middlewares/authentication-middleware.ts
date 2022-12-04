@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { configs } from "../configs";
-import { AuthenticationError } from "../errors";
+import { AuthenticationError } from "../errors/authentication-error";
 import { DecodedToken } from "../types/user.types";
 
 export const authenticationMiddleware = (
