@@ -1,21 +1,53 @@
 import request from "supertest";
 import { app } from "../../app";
+import { Ticket } from "../../models/ticket.model";
 
-describe("Get ticket", () => {
-  it("should fail due to invalid id", async () => {
-    await request(app).get("/api/orders/asdas6d7as").expect(400);
+it("fetches the order", async () => {
+  // Create a ticket
+  const ticket = Ticket.build({
+    title: "concert",
+    price: 20,
   });
+  await ticket.save();
 
-  it("should fail due to ticket not found", async () => {
-    await request(app).get("/api/orders/6369d2937246740ae7556478").expect(404);
+  const user = global.register();
+  // make a request to build an order with this ticket
+  const { body: order } = await request(app)
+    .post("/api/orders")
+    .set("Cookie", user)
+    .send({ ticketId: ticket.id })
+    .expect(201);
+
+  // make request to fetch the order
+  const { body: fetchedOrder } = await request(app)
+    .get(`/api/orders/${order.id}`)
+    .set("Cookie", user)
+    .send()
+    .expect(200);
+
+  expect(fetchedOrder.id).toEqual(order.id);
+});
+
+it("returns an error if one user tries to fetch another users order", async () => {
+  // Create a ticket
+  const ticket = Ticket.build({
+    title: "concert",
+    price: 20,
   });
+  await ticket.save();
 
-  it("should fail due to ticket not found", async () => {
-    const response = await request(app)
-      .post("/api/orders/")
-      .set("Cookie", global.register())
-      .send({ title: "New Ticket", price: 100 });
+  const user = global.register();
+  // make a request to build an order with this ticket
+  const { body: order } = await request(app)
+    .post("/api/orders")
+    .set("Cookie", user)
+    .send({ ticketId: ticket.id })
+    .expect(201);
 
-    await request(app).get(`/api/orders/${response.body.id}`).expect(200);
-  });
+  // make request to fetch the order
+  await request(app)
+    .get(`/api/orders/${order.id}`)
+    .set("Cookie", global.register())
+    .send()
+    .expect(401);
 });

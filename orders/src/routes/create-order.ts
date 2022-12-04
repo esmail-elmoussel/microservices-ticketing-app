@@ -1,30 +1,64 @@
 import {
   authenticationMiddleware,
+  BadRequestError,
+  NotFoundError,
   requestValidationMiddleware,
+  OrderStatus,
 } from "@esmailelmoussel/microservices-common";
 import { DecodedToken } from "@esmailelmoussel/microservices-common/build/types/user.types";
 
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { body } from "express-validator";
+import mongoose from "mongoose";
+import { Order } from "../models/order.model";
 import { Ticket } from "../models/ticket.model";
-import { natsWrapper } from "../nats-wrapper";
 
 const router = Router();
+
+const EXPIRATION_WINDOW_SECONDS = 15 * 60;
 
 router.post(
   "/api/orders",
   authenticationMiddleware,
-  body("title").isString(),
-  body("price").isFloat({ gt: 0 }),
+  [
+    body("ticketId")
+      .not()
+      .isEmpty()
+      .custom((input: string) => mongoose.Types.ObjectId.isValid(input))
+      .withMessage("TicketId must be provided"),
+  ],
   requestValidationMiddleware,
-  async (req, res) => {
-    const { title, price } = req.body as { title: string; price: number };
+  async (req: Request, res: Response) => {
+    const { ticketId } = req.body;
 
-    const ticket = Ticket.build({ title, price, userId: req.currentUser!.id });
+    // Find the ticket the user is trying to order in the database
+    const ticket = await Ticket.findById(ticketId);
+    if (!ticket) {
+      throw new NotFoundError();
+    }
 
-    await ticket.save();
+    // Make sure that this ticket is not already reserved
+    const isReserved = await ticket.isReserved();
+    if (isReserved) {
+      throw new BadRequestError("Ticket is already reserved");
+    }
 
-    return res.status(201).json(ticket);
+    // Calculate an expiration date for this order
+    const expiration = new Date();
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
+
+    // Build the order and save it to the database
+    const order = Order.build({
+      userId: req.currentUser!.id,
+      status: OrderStatus.Created,
+      expiresAt: expiration,
+      ticket,
+    });
+    await order.save();
+
+    // Publish an event saying that an order was created
+
+    res.status(201).send(order);
   }
 );
 

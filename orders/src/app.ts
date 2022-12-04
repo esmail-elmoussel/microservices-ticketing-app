@@ -7,10 +7,10 @@ import {
   errorHandlerMiddleware,
   NotFoundError,
 } from "@esmailelmoussel/microservices-common";
-import { getOrders } from "./routes/get-orders";
 import { createOrder } from "./routes/create-order";
+import { getOrders } from "./routes/get-orders";
+import { cancelOrder } from "./routes/cancel-order";
 import { getOrder } from "./routes/get-order";
-import { editOrder } from "./routes/edit-order";
 
 const app = express();
 
@@ -26,7 +26,7 @@ app.use(
 
 app.use(getOrders);
 app.use(createOrder);
-app.use(editOrder);
+app.use(cancelOrder);
 app.use(getOrder);
 
 app.all("*", () => {

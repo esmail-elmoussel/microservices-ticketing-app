@@ -2,28 +2,34 @@ import {
   AuthenticationError,
   authenticationMiddleware,
   NotFoundError,
+  OrderStatus,
 } from "@esmailelmoussel/microservices-common";
 import express, { Request, Response } from "express";
 import { Order } from "../models/order.model";
 
 const router = express.Router();
 
-router.get(
+router.put(
   "/api/orders/:orderId",
   authenticationMiddleware,
   async (req: Request, res: Response) => {
-    const order = await Order.findById(req.params.orderId).populate("ticket");
+    const { orderId } = req.params;
+
+    const order = await Order.findById(orderId);
 
     if (!order) {
       throw new NotFoundError();
     }
-
     if (order.userId !== req.currentUser!.id) {
       throw new AuthenticationError("Not Authorized!");
     }
+    order.status = OrderStatus.Cancelled;
+    await order.save();
 
-    res.send(order);
+    // publishing an event saying this was cancelled!
+
+    res.status(204).send(order);
   }
 );
 
-export { router as getOrder };
+export { router as cancelOrder };

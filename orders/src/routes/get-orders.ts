@@ -1,12 +1,19 @@
-import { Router } from "express";
-import { Ticket } from "../models/ticket.model";
+import { authenticationMiddleware } from "@esmailelmoussel/microservices-common";
+import express, { Request, Response } from "express";
+import { Order } from "../models/order.model";
 
-const router = Router();
+const router = express.Router();
 
-router.get("/api/orders", async (req, res) => {
-  const tickets = await Ticket.find();
+router.get(
+  "/api/orders",
+  authenticationMiddleware,
+  async (req: Request, res: Response) => {
+    const orders = await Order.find({
+      userId: req.currentUser!.id,
+    }).populate("ticket");
 
-  return res.json(tickets);
-});
+    res.send(orders);
+  }
+);
 
 export { router as getOrders };
