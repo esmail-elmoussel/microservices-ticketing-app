@@ -10,7 +10,7 @@ import {
 import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import mongoose from "mongoose";
-import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
+import { OrderCreatedPublisher } from "../events";
 import { Order } from "../models/order.model";
 import { Ticket } from "../models/ticket.model";
 import { natsWrapper } from "../nats-wrapper";

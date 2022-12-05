@@ -24,4 +24,5 @@ export const configs = {
   NATS_CLUSTER_ID: process.env.NATS_CLUSTER_ID,
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
+  QUEUE_GROUP_NAME: "orders-service",
 };

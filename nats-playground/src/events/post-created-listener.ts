@@ -5,7 +5,7 @@ import { BaseListener } from "./base-listener";
 export class PostCreatedListener extends BaseListener<PostCreatedEvent> {
   readonly subject = "post:created";
 
-  readonly queueGroup = "comment-service";
+  readonly queueGroup = "comments-service";
 
   onMessage = (data: PostCreatedEvent["data"], msg: Message) => {
     console.log(
