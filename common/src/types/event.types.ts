@@ -12,6 +12,7 @@ export interface TicketCreatedEvent {
     title: string;
     price: number;
     userId: string;
+    version: number;
   };
 }
 
@@ -22,6 +23,7 @@ export interface TicketUpdatedEvent {
     title: string;
     price: number;
     userId: string;
+    version: number;
   };
 }
 
@@ -36,6 +38,7 @@ export interface OrderCreatedEvent {
       id: string;
       price: number;
     };
+    version: number;
   };
 }
 
@@ -46,5 +49,6 @@ export interface OrderCancelledEvent {
     ticket: {
       id: string;
     };
+    version: number;
   };
 }
