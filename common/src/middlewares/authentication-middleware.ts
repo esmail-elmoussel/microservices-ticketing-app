@@ -11,6 +11,10 @@ export const authenticationMiddleware = (
 ) => {
   const { token } = req.session as { token?: string };
 
+  if (!configs.JWT_SECRET) {
+    throw new Error('Missing env variable "JWT_SECRET"');
+  }
+
   if (!token) {
     throw new AuthenticationError("token must be provided!");
   }
