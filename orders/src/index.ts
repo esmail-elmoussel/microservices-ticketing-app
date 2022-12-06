@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { configs } from "./configs";
-import { TicketCreatedListener, TicketUpdatedListener } from "./events";
+import {
+  OrderExpiredListener,
+  TicketCreatedListener,
+  TicketUpdatedListener,
+} from "./events";
 import { natsWrapper } from "./nats-wrapper";
 
 const startServer = async () => {
@@ -22,6 +26,7 @@ const startServer = async () => {
 
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
+    new OrderExpiredListener(natsWrapper.client).listen();
 
     console.info("Nats connected successfully!");
 

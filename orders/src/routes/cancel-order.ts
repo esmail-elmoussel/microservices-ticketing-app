@@ -17,7 +17,7 @@ router.put(
   async (req: Request, res: Response) => {
     const { orderId } = req.params;
 
-    const order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).populate("ticket");
 
     if (!order) {
       throw new NotFoundError();
@@ -29,7 +29,7 @@ router.put(
     await order.save();
 
     // publishing an event saying this was cancelled!
-    new OrderCancelledPublisher(natsWrapper.client).publish({
+    await new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       ticket: {
         id: order.ticket.id,
