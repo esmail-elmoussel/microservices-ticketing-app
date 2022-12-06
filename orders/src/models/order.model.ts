@@ -1,5 +1,6 @@
 import { OrderStatus } from "@esmailelmoussel/microservices-common";
 import mongoose from "mongoose";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { OrderAttrs, OrderDoc, OrderModel } from "../types/order.types";
 
 const orderSchema = new mongoose.Schema(
@@ -35,6 +36,10 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+orderSchema.set("versionKey", "version");
+
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);

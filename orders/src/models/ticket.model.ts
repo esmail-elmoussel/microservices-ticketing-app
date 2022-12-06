@@ -2,6 +2,7 @@ import { OrderStatus } from "@esmailelmoussel/microservices-common";
 import mongoose from "mongoose";
 import { TicketAttrs, TicketDoc, TicketModel } from "../types/ticket.types";
 import { Order } from "./order.model";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 const ticketSchema = new mongoose.Schema(
   {
@@ -25,6 +26,10 @@ const ticketSchema = new mongoose.Schema(
     },
   }
 );
+
+ticketSchema.set("versionKey", "version");
+
+ticketSchema.plugin(updateIfCurrentPlugin);
 
 ticketSchema.statics.build = ({ id, ...rest }: TicketAttrs) => {
   return new Ticket({ _id: id, ...rest });
