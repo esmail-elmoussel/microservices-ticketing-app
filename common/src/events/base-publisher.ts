@@ -4,7 +4,7 @@ import { Event } from "../types/event.types";
 export abstract class BasePublisher<T extends Event> {
   abstract subject: T["subject"];
 
-  private client;
+  protected client;
 
   constructor(client: Stan) {
     this.client = client;

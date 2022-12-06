@@ -8,7 +8,7 @@ export abstract class BaseListener<T extends Event> {
 
   protected ackWait = 5 * 1000;
 
-  private client;
+  protected client;
 
   constructor(client: Stan) {
     this.client = client;
