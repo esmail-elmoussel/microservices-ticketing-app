@@ -1,13 +1,14 @@
 import {
   AuthenticationError,
   authenticationMiddleware,
+  BadRequestError,
   NotFoundError,
   requestValidationMiddleware,
 } from "@esmailelmoussel/microservices-common";
 import { Router } from "express";
 import { body } from "express-validator";
 import { ObjectId } from "mongoose";
-import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
+import { TicketUpdatedPublisher } from "../events";
 import { Ticket } from "../models/ticket.model";
 import { natsWrapper } from "../nats-wrapper";
 
@@ -38,7 +39,14 @@ router.put(
       throw new AuthenticationError("Can not edit others tickets");
     }
 
-    ticket.set({ title, price });
+    if (ticket.orderId) {
+      throw new BadRequestError("Can not edit reserved ticket");
+    }
+
+    ticket.set({
+      ...(title && { title }),
+      ...(price && { price }),
+    });
 
     await ticket.save();
 

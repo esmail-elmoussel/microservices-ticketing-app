@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// creational attrs
 export interface TicketAttrs {
   title: string;
   price: number;
@@ -15,4 +16,5 @@ export interface TicketDoc extends mongoose.Document {
   price: number;
   userId: string;
   version: number;
+  orderId?: string;
 }

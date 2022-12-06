@@ -6,7 +6,7 @@ import {
 
 import { Router } from "express";
 import { body } from "express-validator";
-import { TicketCreatedPublisher } from "../events/publishers/ticket-created-publisher";
+import { TicketCreatedPublisher } from "../events";
 import { Ticket } from "../models/ticket.model";
 import { natsWrapper } from "../nats-wrapper";
 

@@ -1,5 +1,7 @@
+import mongoose from "mongoose";
 import request from "supertest";
 import { app } from "../../app";
+import { Ticket } from "../../models/ticket.model";
 import { natsWrapper } from "../../nats-wrapper";
 
 describe("Edit ticket", () => {
@@ -196,5 +198,40 @@ describe("Edit ticket", () => {
       .set("Cookie", cookie);
 
     expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+  });
+
+  it("Should throw error due to ticket is reserved", async () => {
+    const cookie = global.register();
+
+    const price = 100;
+    const createTicketResponse = await request(app)
+      .post("/api/tickets/")
+      .set("Cookie", cookie)
+      .send({
+        title: "Some Ticket",
+        price,
+      });
+
+    const ticket = await Ticket.findById(createTicketResponse.body.id);
+
+    ticket?.set({ orderId: new mongoose.Types.ObjectId().toString() });
+
+    await ticket?.save();
+
+    const updatedPrice = 200;
+
+    const response = await request(app)
+      .put("/api/tickets")
+      .send({
+        ticketId: createTicketResponse.body.id,
+        price: updatedPrice,
+      })
+      .set("Cookie", cookie)
+      .expect(400);
+
+    const refetchedTicket = await Ticket.findById(createTicketResponse.body.id);
+
+    expect(refetchedTicket?.price).toBe(price);
+    expect(refetchedTicket?.price).not.toBe(updatedPrice);
   });
 });
