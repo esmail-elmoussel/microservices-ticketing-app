@@ -53,3 +53,10 @@ export interface OrderCancelledEvent {
     version: number;
   };
 }
+
+export interface OrderExpiredEvent {
+  subject: "order:expired";
+  data: {
+    id: string;
+  };
+}
