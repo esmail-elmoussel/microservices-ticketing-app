@@ -60,3 +60,12 @@ export interface OrderExpiredEvent {
     id: string;
   };
 }
+
+export interface PaymentCreatedEvent {
+  subject: "payment:created";
+  data: {
+    transactionId: string;
+    orderId: string;
+    stripeId: string;
+  };
+}
