@@ -7,6 +7,7 @@ import {
   errorHandlerMiddleware,
   NotFoundError,
 } from "@esmailelmoussel/microservices-common";
+import { purchaseOrder } from "./routes/purchase-order";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(
     secure: false, // handle http requests
   })
 );
+
+app.use(purchaseOrder);
 
 app.all("*", () => {
   throw new NotFoundError();

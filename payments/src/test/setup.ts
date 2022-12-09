@@ -1,10 +1,16 @@
-process.env.JWT_SECRET = "asdkajsh";
+process.env.JWT_SECRET = "hasghdj";
+process.env.MONGO_URI = "asdkj";
+process.env.NATS_CLUSTER_ID = "asdk";
+process.env.NATS_CLIENT_ID = "asd";
+process.env.NATS_URL = "das";
+process.env.STRIPE_SECRET = "asd";
 
 import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Types } from "mongoose";
 
 jest.mock("../nats-wrapper.ts");
+jest.mock("../stripe.ts");
 
 let mongo: MongoMemoryServer;
 
@@ -39,11 +45,11 @@ async function removeAllCollections() {
 }
 
 declare global {
-  var register: () => string;
+  var register: (id?: string) => string;
 }
 
-global.register = () => {
-  const user = { email: "test@test.com", id: new Types.ObjectId() };
+global.register = (id?: string) => {
+  const user = { email: "test@test.com", id: id || new Types.ObjectId() };
 
   const token = jwt.sign(user, process.env.JWT_SECRET as string);
 

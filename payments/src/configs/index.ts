@@ -18,10 +18,15 @@ if (!process.env.NATS_URL) {
   throw new Error('Missing env variable "NATS_URL"');
 }
 
+if (!process.env.STRIPE_SECRET) {
+  throw new Error('Missing env variable "STRIPE_SECRET"');
+}
+
 export const configs = {
   JWT_SECRET: process.env.JWT_SECRET,
   MONGO_URI: process.env.MONGO_URI,
   NATS_CLUSTER_ID: process.env.NATS_CLUSTER_ID,
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
+  STRIPE_SECRET: process.env.STRIPE_SECRET,
 };
