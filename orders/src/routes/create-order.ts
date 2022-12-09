@@ -10,6 +10,7 @@ import {
 import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import mongoose from "mongoose";
+import { configs } from "../configs";
 import { OrderCreatedPublisher } from "../events";
 import { Order } from "../models/order.model";
 import { Ticket } from "../models/ticket.model";
@@ -47,7 +48,10 @@ router.post(
 
     // Calculate an expiration date for this order
     const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
+
+    expiration.setSeconds(
+      expiration.getSeconds() + configs.ORDER_EXPIRATION_SECONDS
+    );
 
     // Build the order and save it to the database
     const order = Order.build({

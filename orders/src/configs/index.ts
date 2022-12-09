@@ -18,10 +18,15 @@ if (!process.env.NATS_URL) {
   throw new Error('Missing env variable "NATS_URL"');
 }
 
+if (!process.env.ORDER_EXPIRATION_SECONDS) {
+  throw new Error('Missing env variable "ORDER_EXPIRATION_SECONDS"');
+}
+
 export const configs = {
   JWT_SECRET: process.env.JWT_SECRET,
   MONGO_URI: process.env.MONGO_URI,
   NATS_CLUSTER_ID: process.env.NATS_CLUSTER_ID,
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
+  ORDER_EXPIRATION_SECONDS: Number(process.env.ORDER_EXPIRATION_SECONDS),
 };
