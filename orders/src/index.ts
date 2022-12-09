@@ -3,6 +3,7 @@ import { app } from "./app";
 import { configs } from "./configs";
 import {
   OrderExpiredListener,
+  PaymentCreatedListener,
   TicketCreatedListener,
   TicketUpdatedListener,
 } from "./events";
@@ -27,6 +28,7 @@ const startServer = async () => {
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
     new OrderExpiredListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     console.info("Nats connected successfully!");
 

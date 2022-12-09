@@ -19,7 +19,11 @@ export class OrderExpiredListener extends BaseListener<OrderExpiredEvent> {
     const order = await Order.findById(id).populate("ticket");
 
     if (!order) {
-      throw new Error("Ticket not found!");
+      throw new Error("Order not found!");
+    }
+
+    if (order.status === OrderStatus.Complete) {
+      return msg.ack();
     }
 
     order.status = OrderStatus.Cancelled;
