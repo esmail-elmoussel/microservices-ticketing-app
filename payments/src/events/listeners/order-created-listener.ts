@@ -3,13 +3,13 @@ import {
   OrderCreatedEvent,
 } from "@esmailelmoussel/microservices-common";
 import { Message } from "node-nats-streaming";
-import { constants } from "../../constants";
+import { configs } from "../../configs";
 import { Order } from "../../models/order.model";
 
 export class OrderCreatedListener extends BaseListener<OrderCreatedEvent> {
   readonly subject = "order:created";
 
-  queueGroup = constants.QUEUE_GROUP_NAME;
+  queueGroup = configs.QUEUE_GROUP_NAME;
 
   async onMessage(data: OrderCreatedEvent["data"], msg: Message) {
     const order = Order.build({

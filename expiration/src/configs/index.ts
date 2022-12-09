@@ -15,4 +15,5 @@ export const configs = {
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
   REDIS_HOST: process.env.REDIS_HOST,
+  QUEUE_GROUP_NAME: "expiration-service",
 };

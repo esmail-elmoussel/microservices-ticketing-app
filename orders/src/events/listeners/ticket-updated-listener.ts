@@ -3,13 +3,13 @@ import {
   TicketUpdatedEvent,
 } from "@esmailelmoussel/microservices-common";
 import { Message } from "node-nats-streaming";
-import { constants } from "../../constants";
+import { configs } from "../../configs";
 import { Ticket } from "../../models/ticket.model";
 
 export class TicketUpdatedListener extends BaseListener<TicketUpdatedEvent> {
   readonly subject = "ticket:updated";
 
-  queueGroup = constants.QUEUE_GROUP_NAME;
+  queueGroup = configs.QUEUE_GROUP_NAME;
 
   onMessage = async (data: TicketUpdatedEvent["data"], msg: Message) => {
     const { id, title, price, version } = data;

@@ -3,14 +3,14 @@ import {
   OrderCancelledEvent,
 } from "@esmailelmoussel/microservices-common";
 import { Message } from "node-nats-streaming";
-import { constants } from "../../constants";
+import { configs } from "../../configs";
 import { Ticket } from "../../models/ticket.model";
 import { TicketUpdatedPublisher } from "../publishers/ticket-updated-publisher";
 
 export class OrderCancelledListener extends BaseListener<OrderCancelledEvent> {
   readonly subject = "order:cancelled";
 
-  queueGroup = constants.QUEUE_GROUP_NAME;
+  queueGroup = configs.QUEUE_GROUP_NAME;
 
   async onMessage(data: OrderCancelledEvent["data"], msg: Message) {
     const ticket = await Ticket.findById(data.ticket.id);

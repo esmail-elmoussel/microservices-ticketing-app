@@ -1,4 +1,5 @@
-process.env.JWT_SECRET = "asdkajsh";
+process.env.JWT_SECRET = "hasghdj";
+process.env.MONGO_URI = "asdkj";
 
 import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";

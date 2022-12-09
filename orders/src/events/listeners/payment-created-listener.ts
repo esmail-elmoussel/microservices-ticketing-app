@@ -4,13 +4,13 @@ import {
   PaymentCreatedEvent,
 } from "@esmailelmoussel/microservices-common";
 import { Message } from "node-nats-streaming";
-import { constants } from "../../constants";
+import { configs } from "../../configs";
 import { Order } from "../../models/order.model";
 
 export class PaymentCreatedListener extends BaseListener<PaymentCreatedEvent> {
   readonly subject = "payment:created";
 
-  queueGroup = constants.QUEUE_GROUP_NAME;
+  queueGroup = configs.QUEUE_GROUP_NAME;
 
   onMessage = async (data: PaymentCreatedEvent["data"], msg: Message) => {
     const { orderId } = data;

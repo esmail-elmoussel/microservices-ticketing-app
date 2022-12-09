@@ -4,14 +4,14 @@ import {
   OrderStatus,
 } from "@esmailelmoussel/microservices-common";
 import { Message } from "node-nats-streaming";
-import { constants } from "../../constants";
+import { configs } from "../../configs";
 import { Order } from "../../models/order.model";
 import { OrderCancelledPublisher } from "../publishers/order-cancelled-publisher";
 
 export class OrderExpiredListener extends BaseListener<OrderExpiredEvent> {
   readonly subject = "order:expired";
 
-  queueGroup = constants.QUEUE_GROUP_NAME;
+  queueGroup = configs.QUEUE_GROUP_NAME;
 
   onMessage = async (data: OrderExpiredEvent["data"], msg: Message) => {
     const { id } = data;

@@ -29,4 +29,5 @@ export const configs = {
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
   ORDER_EXPIRATION_SECONDS: Number(process.env.ORDER_EXPIRATION_SECONDS),
+  QUEUE_GROUP_NAME: "orders-service",
 };

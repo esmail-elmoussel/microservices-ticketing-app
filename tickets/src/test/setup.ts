@@ -1,4 +1,8 @@
 process.env.JWT_SECRET = "asdkajsh";
+process.env.MONGO_URI = "asdkajsh";
+process.env.NATS_CLUSTER_ID = "asdkajsh";
+process.env.NATS_CLIENT_ID = "asdkajsh";
+process.env.NATS_URL = "asdkajsh";
 
 import jwt from "jsonwebtoken";
 import { MongoMemoryServer } from "mongodb-memory-server";

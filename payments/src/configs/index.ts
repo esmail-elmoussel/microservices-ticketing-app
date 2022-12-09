@@ -29,4 +29,5 @@ export const configs = {
   NATS_CLIENT_ID: process.env.NATS_CLIENT_ID,
   NATS_URL: process.env.NATS_URL,
   STRIPE_SECRET: process.env.STRIPE_SECRET,
+  QUEUE_GROUP_NAME: "payments-service",
 };
