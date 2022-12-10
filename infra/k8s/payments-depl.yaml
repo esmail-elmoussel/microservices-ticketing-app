@@ -31,11 +31,11 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_SECRET
-            - name: STRIPE_SECRET
+            - name: STRIPE_SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: stripe-secret
-                  key: STRIPE_SECRET
+                  name: stripe-secret-key
+                  key: STRIPE_SECRET_KEY
 ---
 apiVersion: v1
 kind: Service
