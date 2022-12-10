@@ -18,7 +18,7 @@ export const useRequest = ({
 
       const response = await axios[method](url, body);
 
-      onSuccess(response);
+      onSuccess(response.data);
 
       return response.data;
     } catch (err: any) {

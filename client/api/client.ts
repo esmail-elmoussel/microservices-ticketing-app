@@ -1,9 +1,9 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { NextPageContext } from "next";
 
-export const axiosClient = (context?: NextPageContext) => {
+export const buildClient = (context?: NextPageContext) => {
   if (typeof window === "undefined") {
-    // Client server (pod) request
+    // Server (pod) request
     return axios.create({
       baseURL:
         "http://ingress-nginx-controller.ingress-nginx.svc.cluster.local",

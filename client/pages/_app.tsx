@@ -1,6 +1,6 @@
 import { AppContext, AppProps } from "next/app";
 import "bootstrap/dist/css/bootstrap.css";
-import { axiosClient } from "../api/axios-client";
+import { buildClient } from "../api/client";
 import { User } from "../types/user.types";
 import Header from "../components/shared/header.component";
 
@@ -13,23 +13,24 @@ const App = ({ Component, pageProps, user }: Props) => {
     <div>
       <Header user={user} />
 
-      <Component {...pageProps} user={user} />
+      <Component user={user} {...pageProps} />
     </div>
   );
 };
 
 App.getInitialProps = async (appContext: AppContext) => {
   let pageProps;
+
   if (appContext.Component.getInitialProps) {
     pageProps = await appContext.Component.getInitialProps(appContext.ctx);
   }
 
-  const response = await axiosClient(appContext.ctx)
-    .get("/api/users/current-user")
-    .catch((err) => {
-      console.error(err.response.data);
-      return null;
-    });
+  const client = buildClient(appContext.ctx);
+
+  const response = await client.get("/api/users/current-user").catch((err) => {
+    console.error(err.response.data);
+    return null;
+  });
 
   return {
     pageProps,

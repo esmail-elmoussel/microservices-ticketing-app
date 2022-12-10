@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { User } from "../types/user.types";
 
 interface Props {
@@ -7,11 +7,13 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ user }) => {
-  const router = useRouter();
-
   return (
     <div className="container">
       {user ? <h1>Welcome, {user.email}</h1> : <h1>Please login</h1>}
+
+      <Link href="/tickets">
+        <a>Browse all tickets</a>
+      </Link>
     </div>
   );
 };
