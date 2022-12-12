@@ -27,7 +27,7 @@ const startServer = async () => {
     console.info("Nats connected successfully!");
 
     app.listen(3000, () => {
-      console.info("Tickets service listening on port 3000!");
+      console.info("Tickets service listening on port 3000!!");
     });
   } catch (err) {
     console.error(err);
